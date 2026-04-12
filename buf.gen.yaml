@@ -1,10 +1,10 @@
-Set-Content -Path "buf.gen.yaml" -Value 'version: v1
+﻿version: v2
 plugins:
-  - plugin: buf.build/protocolbuffers/go
+  - remote: buf.build/protocolbuffers/go
     out: .
     opt:
       - paths=source_relative
-  - plugin: buf.build/grpc/go
+  - remote: buf.build/grpc/go
     out: .
     opt:
-      - paths=source_relative'
+      - paths=source_relative
