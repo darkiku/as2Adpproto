@@ -1,4 +1,4 @@
-Set-Content -Path ".github\workflows\generate.yml" -Value 'name: Generate proto
+﻿name: Generate proto
 
 on:
   push:
@@ -33,4 +33,4 @@ jobs:
           go mod init github.com/darkiku/ass2Adpgen || true
           git add .
           git commit -m "generated from proto" || true
-          git push'
+          git push
