@@ -1,0 +1,10 @@
+Set-Content -Path "buf.yaml" -Value 'version: v1
+name: buf.build/darkiku/cr7-protos
+deps:
+  - buf.build/googleapis/googleapis
+lint:
+  use:
+    - DEFAULT
+breaking:
+  use:
+    - FILE'
