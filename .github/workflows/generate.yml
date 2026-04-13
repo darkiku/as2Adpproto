@@ -1,0 +1,46 @@
+﻿name: Generate Proto
+
+on:
+  push:
+    paths:
+      - '**/*.proto'
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+
+      - name: Install protoc
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y protobuf-compiler
+          go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.34.1
+          go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.3.0
+          echo "$HOME/go/bin" >> $GITHUB_PATH
+
+      - name: Generate
+        run: |
+          mkdir -p generated/payment generated/order
+          protoc --go_out=generated --go-grpc_out=generated \
+            --proto_path=. \
+            payment/payment.proto order/order.proto
+
+      - name: Push to generated repo
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+        run: |
+          git clone https://x-access-token:${GH_PAT}@github.com/darkiku/ass2Adpgen.git gen-repo
+          cp -r generated/payment/* gen-repo/payment/
+          cp -r generated/order/* gen-repo/order/
+          cd gen-repo
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions"
+          git add .
+          git diff --cached --quiet || git commit -m "chore: regenerate from proto"
+          git push
