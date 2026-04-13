@@ -26,8 +26,7 @@ jobs:
 
       - name: Generate
         run: |
-          mkdir -p generated/payment generated/order
-          protoc --go_out=generated --go-grpc_out=generated \
+          protoc --go_out=. --go-grpc_out=. \
             --proto_path=. \
             payment/payment.proto order/order.proto
 
@@ -36,8 +35,8 @@ jobs:
           GH_PAT: ${{ secrets.GH_PAT }}
         run: |
           git clone https://x-access-token:${GH_PAT}@github.com/darkiku/ass2Adpgen.git gen-repo
-          cp -r generated/payment/* gen-repo/payment/
-          cp -r generated/order/* gen-repo/order/
+          cp github.com/darkiku/ass2Adpgen/payment/*.go gen-repo/payment/
+          cp github.com/darkiku/ass2Adpgen/order/*.go gen-repo/order/
           cd gen-repo
           git config user.email "actions@github.com"
           git config user.name "GitHub Actions"
