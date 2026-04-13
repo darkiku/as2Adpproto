@@ -1,8 +1,8 @@
-Set-Content -Path "payment\payment.proto" -Value 'syntax = "proto3";
+﻿syntax = "proto3";
 
 package payment;
 
-option go_package = "github.com/darkiku/ass2Adpgen/payment";
+option go_package = "github.com/darkiku/ass2Adpgen/payment;paymentpb";
 
 import "google/protobuf/timestamp.proto";
 
@@ -16,7 +16,9 @@ message PaymentRequest {
 }
 
 message PaymentResponse {
-  string transaction_id = 1;
-  string status = 2;
-  google.protobuf.Timestamp processed_at = 3;
-}'
+  string payment_id = 1;
+  string order_id = 2;
+  string transaction_id = 3;
+  string status = 4;
+  google.protobuf.Timestamp processed_at = 5;
+}

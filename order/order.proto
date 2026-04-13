@@ -1,8 +1,8 @@
-Set-Content -Path "order\order.proto" -Value 'syntax = "proto3";
+﻿syntax = "proto3";
 
 package order;
 
-option go_package = "github.com/darkiku/ass2Adpgen/order";
+option go_package = "github.com/darkiku/ass2Adpgen/order;orderpb";
 
 import "google/protobuf/timestamp.proto";
 
@@ -17,5 +17,6 @@ message OrderRequest {
 message OrderStatusUpdate {
   string order_id = 1;
   string status = 2;
-  google.protobuf.Timestamp updated_at = 3;
-}'
+  int64 amount = 3;
+  google.protobuf.Timestamp created_at = 4;
+}
